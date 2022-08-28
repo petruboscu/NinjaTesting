@@ -4,7 +4,7 @@ workflows:
   ninja-testing:
     jobs:
       - check-python
-      - test-ninja-calss-all:
+      - test-ninja-class-all:
           requires:
             - check-python
       - test-ninja-class-one-by-one:
