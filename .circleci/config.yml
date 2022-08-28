@@ -31,4 +31,4 @@ jobs:
           command: pip install behave
       - run:
           name: Ninja Encounters
-          command: python3 -m behave --tags==encounter
+          command: python main.py encounter
