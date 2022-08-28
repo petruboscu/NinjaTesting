@@ -4,42 +4,57 @@ workflows:
   ninja-testing:
     jobs:
       - check-python
-      - install-dependencies:
+      - test-ninja-class-all:
           requires:
             - check-python
-      - test-ninja-encounter:
+      - test-ninja-class-one-by-one:
           requires:
-            - install-dependencies
-orbs:
-  python: circleci/python@2.0.3
+            - check-python
 
 jobs:
   check-python:
-    executor: python/default
-    working_directory: ~/project
+    docker:
+      - image: cimg/python:3.8
     steps:
       - checkout
       - run:
           name: Check Python Version
           command: python --version
-
-  install-dependencies:
-    executor: python/default
-    working_directory: ~/project
-    steps:
-      - checkout
       - run:
           name: Update pip
           command: /home/circleci/.pyenv/versions/3.8.13/bin/python3.8 -m pip install --upgrade pip
-      - run:
-          name: Install Behave Dependencies
-          command: pip install behave
 
-  test-ninja-encounter:
-    executor: python/default
-    working_directory: ~/project
+  test-ninja-class-all:
+    docker:
+      - image: cimg/python:3.8
     steps:
       - checkout
       - run:
-          name: Ninja Encounters
-          command: python3 main.py encounter
+          name: Install Behave
+          command: pip install behave
+      - run:
+          name: Test All Ninja Test Case
+          command: python main.py all
+      - store_test_results:
+          path: /tmp/test-results
+
+  test-ninja-class-one-by-one:
+    docker:
+      - image: cimg/python:3.8
+    steps:
+      - checkout
+      - run:
+          name: Install Behave
+          command: pip install behave
+      - run:
+          name: Test Ninja Ignore Test Case
+          command: python main.py ignore
+      - run:
+          name: Test Ninja Fight Test Cases
+          command: python main.py fight
+      - run:
+          name: Test Ninja Run Test Cases
+          command: python main.py run
+      - store_test_results:
+          path: /tmp/test-results
+     
