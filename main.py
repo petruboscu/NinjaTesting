@@ -1,4 +1,5 @@
 import os
+import sys
 
 
 def run_tests(tag: str):
@@ -6,4 +7,7 @@ def run_tests(tag: str):
 
 
 if __name__ == '__main__':
-    run_tests(input('Choose tag (all, ignore, fight, run): '))
+    if len(sys.argv) == 2:
+        run_tests(sys.argv[1])
+    else:
+        exit(1)
