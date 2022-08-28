@@ -1,16 +1,33 @@
 version: 2.1
 
+workflows:
+  ninja-testing:
+    jobs:
+      - check-python
+      - install-dependencies
+      - test-ninja-encounter
+
 jobs:
+  check-python:
+    docker:
+      - image: cimg/python:3.8
+    steps:
+      - checkout
+      - name: Check Python Version
+      - run: python --version
+  install-dependencies:
+    docker:
+      - image: cimg/python:3.8
+      steps:
+        - checkout
+        - name: Install Behave Dependencies
+        - run: pip install behave
   test-ninja-encounter:
     docker:
       - image: cimg/python:3.8
     steps:
       - checkout
-      - run: python --version
+      - name: Ninja Encounters
       - run: python main.py encounter
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
-workflows:
-  say-hello-workflow:
-    jobs:
-      - test-ninja-encounter
+
+
