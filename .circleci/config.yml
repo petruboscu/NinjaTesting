@@ -4,7 +4,10 @@ workflows:
   ninja-testing:
     jobs:
       - check-python
-      - test-ninja-class:
+      - test-ninja-calss-all:
+          requires:
+            - check-python
+      - test-ninja-class-one-by-one:
           requires:
             - check-python
 
@@ -21,7 +24,19 @@ jobs:
           name: Update pip
           command: /home/circleci/.pyenv/versions/3.8.13/bin/python3.8 -m pip install --upgrade pip
 
-  test-ninja-class:
+  test-ninja-class-all:
+    docker:
+      - image: cimg/python:3.8
+    steps:
+      - checkout
+      - run:
+          name: Install Behave
+          command: pip install behave
+      - run:
+          name: Test All Ninja Test Case
+          command: python main.py all
+
+  test-ninja-class-one-by-one:
     docker:
       - image: cimg/python:3.8
     steps:
