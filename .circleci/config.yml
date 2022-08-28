@@ -4,29 +4,42 @@ workflows:
   ninja-testing:
     jobs:
       - check-python
-      - install-dependencies
-      - test-ninja-encounter
+      - install-dependencies:
+          requires:
+            - check-python
+      - test-ninja-encounter:
+          requires:
+            - install-dependencies
+orbs:
+  python: circleci/python@2.0.3
 
 jobs:
   check-python:
-    docker:
-      - image: cimg/python:3.8
+    executor: python/default
+    working_directory: ~/project
     steps:
       - checkout
       - run:
-        - name: Check Python Version
-        - command: python --version
+          name: Check Python Version
+          command: python --version
+
   install-dependencies:
+    executor: python/default
+    working_directory: ~/project
     steps:
       - checkout
       - run:
-        - name: Install Behave Dependencies
-        - command: pip install behave
+          name: Update pip
+          command: /home/circleci/.pyenv/versions/3.8.13/bin/python3.8 -m pip install --upgrade pip
+      - run:
+          name: Install Behave Dependencies
+          command: pip install behave
+
   test-ninja-encounter:
+    executor: python/default
+    working_directory: ~/project
     steps:
       - checkout
       - run:
-        - name: Ninja Encounters
-        - command: python main.py encounter
-
-
+          name: Ninja Encounters
+          command: python3 main.py encounter
