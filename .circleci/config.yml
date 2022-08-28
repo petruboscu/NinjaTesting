@@ -42,4 +42,4 @@ jobs:
       - checkout
       - run:
           name: Ninja Encounters
-          command: python3 main.py encounter
+          command: python3 -m behave --tags=encounter
