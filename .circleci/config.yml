@@ -13,21 +13,24 @@ jobs:
       - image: cimg/python:3.8
     steps:
       - checkout
-      - name: Check Python Version
-      - run: python --version
+      - run:
+        - name: Check Python Version
+        - command: python --version
   install-dependencies:
     docker:
       - image: cimg/python:3.8
       steps:
         - checkout
-        - name: Install Behave Dependencies
-        - run: pip install behave
+        - run:
+          - name: Install Behave Dependencies
+          - command: pip install behave
   test-ninja-encounter:
     docker:
       - image: cimg/python:3.8
     steps:
       - checkout
-      - name: Ninja Encounters
-      - run: python main.py encounter
+      - run:
+        - name: Ninja Encounters
+        - command: python main.py encounter
 
 
