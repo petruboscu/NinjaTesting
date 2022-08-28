@@ -17,16 +17,12 @@ jobs:
         - name: Check Python Version
         - command: python --version
   install-dependencies:
-    docker:
-      - image: cimg/python:3.8
-      steps:
-        - checkout
-        - run:
-          - name: Install Behave Dependencies
-          - command: pip install behave
+    steps:
+      - checkout
+      - run:
+        - name: Install Behave Dependencies
+        - command: pip install behave
   test-ninja-encounter:
-    docker:
-      - image: cimg/python:3.8
     steps:
       - checkout
       - run:
