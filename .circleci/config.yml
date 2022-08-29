@@ -35,8 +35,6 @@ jobs:
       - run:
           name: Test All Ninja Test Case
           command: python main.py all
-      - store_test_results:
-          path: /tmp/test-results
 
   test-ninja-class-one-by-one:
     docker:
@@ -55,6 +53,4 @@ jobs:
       - run:
           name: Test Ninja Run Test Cases
           command: python main.py run
-      - store_test_results:
-          path: /tmp/test-results
      
